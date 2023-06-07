@@ -1,0 +1,25 @@
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
+
+public class JsonStringReplacer {
+    public static String replaceString(String json, String fieldToReplace, String newValue) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(json);
+
+        // Replace the string value
+        ((ObjectNode) rootNode).put(fieldToReplace, newValue);
+
+        return objectMapper.writeValueAsString(rootNode);
+    }
+
+    public static void main(String[] args) throws IOException {
+        String json = "{\"name\": \"John Doe\", \"age\": 30, \"email\": \"john.doe@example.com\"}";
+        String fieldToReplace = "age";
+        String newValue = "35";
+
+        String replacedJson = replaceString(json, fieldToReplace, newValue);
+        System.out.println(replacedJson);
+    }
+}
